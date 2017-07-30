@@ -8,7 +8,7 @@ import { AuthenticationService } from './authentication.service';
 export class UtilityService {
   private _router: Router;
 
-  constructor(router: Router, private http: Http, private authenService: AuthenService) {
+  constructor(router: Router, private http: Http, private authenService: AuthenticationService) {
     this._router = router;
   }
 

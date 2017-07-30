@@ -15,7 +15,7 @@ export class AuthenticationService {
     let headers = new Headers();
     headers.append("Content-Type", "Application/x-www-form-urlencodeed");
     let options = new RequestOptions({ headers: headers });
-    return this._http.post(SystemConstants.BASE_URL + 'api/oauth/token', body, options).map((response: Respons){
+    return this._http.post(SystemConstants.BASE_URL + 'api/oauth/token', body, options).map((response: Response)=>{
       let user: LoggedUser = response.json();
       if (user && user.access_token) {
         localStorage.removeItem(SystemConstants.CURRENT_USER);
