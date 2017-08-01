@@ -5,17 +5,17 @@
   <div class="login_wrapper">
     <div class="animate form login_form">
       <section class="login_content">
-        <form name="form" #f="ngForm" (ngSubmit)="f.form.valid && login()" novalidate>
+        <form name="frmLogin" #frmLogin="ngForm" (ngSubmit)="frmLogin.valid && login()" novalidate>
           <h1>Login Form</h1>
-          <div [ngClass]="{'has-error': f.submitted && !username.valid}">
+          <div [ngClass]="{'has-error': frmLogin.submitted && !username.valid}">
             <input type="text" class="form-control" placeholder="Username" name="username" #username="ngModel" [(ngModel)]="model.username"
               required />
-            <div *ngIf="f.submitted && !username.valid" class="help-block">Nhập tên đăng nhập</div>
+            <div *ngIf="frmLogin.submitted && !username.valid" class="help-block">Nhập tên đăng nhập</div>
           </div>
-          <div [ngClass]="{'has-error': f.submitted && !password.valid}">
+          <div [ngClass]="{'has-error': frmLogin.submitted && !password.valid}">
             <input type="password" class="form-control" placeholder="Password" name="password" #password="ngModel" [(ngModel)]="model.password"
               required />
-            <div *ngIf="f.submitted && !password.valid" class="help-block">Nhập mật khẩu</div>
+            <div *ngIf="frmLogin.submitted && !password.valid" class="help-block">Nhập mật khẩu</div>
           </div>
           <div>
             <button class="btn btn-default submit" [disabled]="loading">Log in</button>
