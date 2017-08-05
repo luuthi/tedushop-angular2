@@ -6,8 +6,8 @@
   <div class="title_right">
     <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
       <div class="input-group">
-        <input type="text" class="form-control" placeholder="Nhập nhóm quyền...">
-        <span class="input-group-btn"><button class="btn btn-default" type="button"><span class="fa fa-search"></span></button>
+        <input type="text" class="form-control" name="filter" (keyup.enter)="loadData()" [(ngModel)]="filter" placeholder="Nhập nhóm quyền...">
+        <span class="input-group-btn"><button class="btn btn-default" (click)="loadData()"type="button"><span class="fa fa-search"></span></button>
         </span>
       </div>
     </div>
@@ -15,13 +15,12 @@
 </div>
 
 <div class="clearfix"></div>
-
 <div class="row">
   <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="x_panel">
       <div class="x_title">
         <ul class="nav navbar-right panel_toolbox">
-          <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a></li>
+          <button class="btn btn-success btn-sm" (click)="showAddModal(template)">Thêm mới</button>
         </ul>
         <div class="clearfix"></div>
       </div>
@@ -30,8 +29,8 @@
         <table class="table table-bordered table-hover">
           <thead>
             <tr>
+              <th class="text-center col-md-5">Mã</th>
               <th class="text-center col-md-5">Tên</th>
-              <th class="text-center col-md-5">Mô tả</th>
               <th class="text-center col-md-2">Action </th>
             </tr>
           </thead>
@@ -40,8 +39,8 @@
               <td class="text-center">{{role.Name}}</td>
               <td class="text-center">{{role.Description}}</td>
               <td class="text-center">
-                <button type="button" class="btn btn-warning btn-sm" data-id="{{role.Id}}"><span class="fa fa-pencil"></span> </button>
-                <button type="button" class="btn btn-danger btn-sm" data-id="{{role.Id}}"><span class="fa fa-trash"></span></button>
+                <button type="button" class="btn btn-warning btn-sm" (click)="showEditModal(template,role.Id)" ><span class="fa fa-pencil"></span> </button>
+                <button type="button" class="btn btn-danger btn-sm" (click)="delete(role.Id)"><span class="fa fa-trash"></span></button>
               </td>
             </tr>
           </tbody>
@@ -51,7 +50,47 @@
     </div>
   </div>
   <div class="col-md-12 col-sm-12 col-xs-12 text-center">
-    <pagination [totalItems]="totalRows" [itemsPerPage]="pageSize" [(ngModel)]="page"  class="pagination-md" [boundaryLinks]="true"
-      [rotate]="true" maxSize="5" (pageChanged)="pageChanged($event)" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;"></pagination>
+    <pagination [totalItems]="totalRows" [itemsPerPage]="pageSize" [(ngModel)]="page" class="pagination-md" [boundaryLinks]="true"
+      [rotate]="true" maxSize="5" (pageChanged)="pageChanged($event)" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;"
+      lastText="&raquo;"></pagination>
   </div>
 </div>
+
+<!-- Modal add or edit -->
+
+<template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Thêm mới / Sửa quyền</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="form-horizontal form-label-left" name="frmRole" #frmRole="ngForm" (ngSubmit)="saveChanges(frmRole.valid)" novaildate
+      *ngIf="entity">
+      <div class="form-group">
+        <label for="name" class="control-label col-sm-3 col-md-3 col-xs-12">Tên quyền</label>
+        <div class="col-md-9 col-sm-9 col-xs-12">
+          <input type="hidden" name="id" [(ngModel)]="entity.Id" />
+          <input type="text" class="form-control" name="name" #name="ngModel" [(ngModel)]="entity.Name" required minlength="3" autocomplete="off"
+          />
+          <small [hidden]="name.valid || (name.pristine && !frmRole.submitted)" class="text-danger">Bạn phải nhập ít nhất 3 kí tự</small>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="description" class="control-label col-sm-3 col-md-3 col-xs-12">Mô tả</label>
+        <div class="col-md-9 col-sm-9 col-xs-12">
+          <textarea type="text" class="form-control" name="description" #description="ngModel" [(ngModel)]="entity.Description" required></textarea>
+          <small [hidden]="description.valid || (description.pristine && !frmRole.submitted)">Bạn phải mô tả</small>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class="col-sm-9 col-sm-offset-3">
+          <button type="submit" class="btn btn-primary" [disabled]="!frmRole.form.valid">Cập nhật</button>
+          <button type="button" class="btn btn-danger" (click)="modalRef.hide()">Hủy</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</template>

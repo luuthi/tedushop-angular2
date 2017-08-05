@@ -1,0 +1,9 @@
+.ng-valid[required], .ng-valid.required  {
+  border-color: #42A948 !important;
+  box-shadow: inset 0 5px 5px rgba(0, 0, 0, 0.075), 0 0 10px rgba(0, 255, 0, 0.6)  !important;
+}
+
+.ng-invalid.ng-dirty:not(form)  {
+  border-color: #FF0000 !important;
+  box-shadow: inset 0 5px 5px rgba(0, 0, 0, 0.075), 0 0 10px rgba(255, 0, 0, 0.6)  !important;
+}

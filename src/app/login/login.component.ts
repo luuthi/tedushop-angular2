@@ -13,20 +13,20 @@ export class LoginComponent implements OnInit {
 
   loading = false;
   model: any = {};
-  returnUrl : string;
+  returnUrl: string;
   constructor(private _authen: AuthenticationService,
     private _noti: NotificationService,
-    private _ulti : UtilityService) { }
+    private _ulti: UtilityService) { }
 
   ngOnInit() {
   }
-  
-  login(){
+
+  login() {
     this.loading = true;
-    this._authen.login(this.model.username,this.model.password).subscribe(data =>{
+    this._authen.login(this.model.username, this.model.password).subscribe(data => {
       this._ulti.navigate(UrlConstants.HOME);
       this._noti.printSuccessMessage(MessageConstants.LOGIN_SUCCESS);
-    },error=> {
+    }, error => {
       this._noti.printErrorMessage(MessageConstants.LOGIN_AGAIN_MSG);
       this.loading = false;
     })

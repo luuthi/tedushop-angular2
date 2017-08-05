@@ -31,12 +31,12 @@ export class DataService {
   put(uri: string, data?: any) {
     this.headers.delete("Authorization");
     this.headers.append("Authorization", "Bearer " + this._authen.getLoggedUser().access_token);
-    return this._http.post(SystemConstants.BASE_URL + uri, data, { headers: this.headers }).map(this.extractData);
+    return this._http.put(SystemConstants.BASE_URL + uri, data, { headers: this.headers }).map(this.extractData);
   }
   delete(uri: string, key: string, id: string) {
     this.headers.delete("Authorization");
     this.headers.append("Authorization", "Bearer " + this._authen.getLoggedUser().access_token);
-    return this._http.post(SystemConstants.BASE_URL + uri + "/?" + key, { headers: this.headers }).map(this.extractData);
+    return this._http.delete(SystemConstants.BASE_URL + uri + "/?" + key + "=" + id, { headers: this.headers }).map(this.extractData);
   }
   postFile(uri: string, data?: any) {
     this.headers.delete("Authorization");
@@ -49,7 +49,7 @@ export class DataService {
       this._notificationService.printErrorMessage(MessageConstants.LOGIN_AGAIN_MSG);
       this._ultiService.navigateToLogin();
     } else {
-      let errMsg = (error.message) ? error.message : error.status ? `$(error.status) - $(error.statusText)` : "System Error";
+      let errMsg = (error.message) ? error.message : error.status ? (error.status) +" - " + (error.statusText) : "System Error";
       this._notificationService.printErrorMessage(errMsg);
       return Observable.throw(errMsg);
     }
